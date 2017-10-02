@@ -1,0 +1,20 @@
+# Docker Compose Definitions for local Developer Environments
+# - Use this file as follows:
+#   docker-compose -f docker/docker-compose.yml up
+version: "3.3"
+services:
+  hello-worldA:
+   ports:
+    - "80:80"
+   image: tutum/hello-world:latest
+  hello-worldB:
+   ports:
+    - "81:80"
+   image: tutum/hello-world:latest
+  gor-listen:
+   image: buger/goreplay
+   network_mode: "host"
+   command: --input-raw :80 --output-http="http://localhost:81"
+   depends_on:
+     - hello-worldA
+     - hello-worldB
