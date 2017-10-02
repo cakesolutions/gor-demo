@@ -23,7 +23,7 @@ In our demo , we will do the first. In our demonstration, GOR will be listening 
 Move into `docker` subfolder and run `docker-compose -f docker-compose.yml up`
 After a few seconds, the two servers and gor container will be up and running. You can now test it by accessing `http://localhost` (web browser or Curl) and you will see how the very same query (inc. headers) will be executed in serverB (http://localhost:81)
 
-NOTE : If you are using MacOS please refer to [Docker for Mac](https://github.com/cakesolutions/gor-demo#docker-for-mac)
+NOTE : If you are using MacOS please go to [Docker for Mac](https://github.com/cakesolutions/gor-demo#docker-for-mac)
 
 
 
