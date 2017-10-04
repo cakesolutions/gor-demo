@@ -12,19 +12,26 @@ resource "aws_alb_target_group" "ecs_target" {
   tags {
     Environment = "${var.env}"
   }
+  depends_on = [
+  "aws_alb.alb",
+  ]
+
+
 }
+
 
 resource "aws_alb" "alb" {
   name            = "ecs-alb-gor"
   subnets         = "${var.vpc_subnets_id}"
   security_groups = ["${aws_security_group.alb-ecs.id}"]
- 
+
 
   tags {
     Environment = "${var.env}"
   }
 
 }
+
 
 resource "aws_alb_listener" "http" {
   load_balancer_arn = "${aws_alb.alb.id}"

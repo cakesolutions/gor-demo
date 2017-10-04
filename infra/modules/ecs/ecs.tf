@@ -23,7 +23,6 @@ resource "aws_autoscaling_group" "ecs_asg" {
   health_check_type = "EC2"
   launch_configuration = "${aws_launch_configuration.ecs_lc.id}"
   vpc_zone_identifier  = "${var.vpc_subnets_id}"
-  target_group_arns    = ["${aws_alb_target_group.ecs_target.arn}"]
 
   tag {
     key                 = "Name"
@@ -57,13 +56,19 @@ resource "aws_ecs_service" "ecs_service_hello-world" {
   cluster         = "${aws_ecs_cluster.ecs.id}"
   task_definition = "${aws_ecs_task_definition.ecs_task_hello-world.arn}"
   desired_count   = 3
+  iam_role        = "${aws_iam_role.ecs_role.arn}"
 
   placement_strategy {
     type  = "spread"
     field = "host"
   }
 
-}
+  load_balancer {
+      target_group_arn = "${aws_alb_target_group.ecs_target.arn}"
+      container_name = "hello-world"
+      container_port = 80
+    }
+  }
 
 resource "aws_ecs_task_definition" "ecs_task_hello-world" {
   family = "hello-world"
@@ -76,11 +81,11 @@ resource "aws_ecs_service" "ecs_service_goreplay" {
   task_definition = "${aws_ecs_task_definition.ecs_task_goreplay.arn}"
   desired_count   = 3
 
+
   placement_strategy {
     type  = "spread"
     field = "host"
   }
-
 }
 
 resource "aws_ecs_task_definition" "ecs_task_goreplay" {
