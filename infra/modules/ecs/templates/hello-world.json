@@ -1,0 +1,15 @@
+[
+  {
+    "name": "hello-world",
+    "image": "tutum/hello-world:latest",
+    "memory": 128,
+    "cpu" : 100,
+    "essential": true,
+    "portMappings": [
+        {
+            "ContainerPort": 80,
+            "hostPort": 80
+        }
+    ]
+  }
+]

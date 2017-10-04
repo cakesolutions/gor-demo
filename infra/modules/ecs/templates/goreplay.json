@@ -1,0 +1,15 @@
+[
+  {
+    "name": "goreplay",
+    "image": "buger/goreplay",
+    "memory": 128,
+    "cpu" : 100,
+    "essential": true,
+    "command": [
+        "--input-raw",
+        ":80",
+        "--output-stdout",
+        "--input-raw-track-response"
+    ]
+  }
+]
