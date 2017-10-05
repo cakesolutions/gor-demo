@@ -93,3 +93,52 @@ resource "aws_ecs_task_definition" "ecs_task_goreplay" {
   container_definitions = "${template_file.ecs_task_goreplay.rendered}"
   network_mode = "host"
 }
+
+resource "aws_ecs_service" "ecs_service_es" {
+  name            = "ecs_service_es"
+  cluster         = "${aws_ecs_cluster.ecs.id}"
+  task_definition = "${aws_ecs_task_definition.ecs_task_es.arn}"
+  desired_count   = 1
+  iam_role        = "${aws_iam_role.ecs_role.arn}"
+
+  placement_strategy {
+    type  = "spread"
+    field = "host"
+  }
+
+  load_balancer {
+      elb_name = "${aws_elb.internal-elb.name}"
+      container_name = "es"
+      container_port = 9200
+    }
+  }
+
+resource "aws_ecs_task_definition" "ecs_task_es" {
+  family = "es"
+  container_definitions = "${template_file.ecs_task_es.rendered}"
+}
+
+
+resource "aws_ecs_service" "ecs_service_kibana" {
+  name            = "ecs_service_kibana"
+  cluster         = "${aws_ecs_cluster.ecs.id}"
+  task_definition = "${aws_ecs_task_definition.ecs_task_kibana.arn}"
+  desired_count   = 1
+  iam_role        = "${aws_iam_role.ecs_role.arn}"
+
+  placement_strategy {
+    type  = "spread"
+    field = "host"
+  }
+
+  load_balancer {
+      target_group_arn = "${aws_alb_target_group.ecs_target.arn}"
+      container_name = "kibana"
+      container_port = 5601
+    }
+  }
+
+resource "aws_ecs_task_definition" "ecs_task_kibana" {
+  family = "kibana"
+  container_definitions = "${template_file.ecs_task_kibana.rendered}"
+}

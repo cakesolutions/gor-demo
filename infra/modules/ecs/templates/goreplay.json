@@ -8,7 +8,10 @@
     "command": [
         "--input-raw",
         ":80",
-        "--output-stdout",
+        "--output-http",
+        "http://stagingdummy",
+        "--output-http-elasticsearch",
+        "es.gordemo.local:9200/gor",
         "--input-raw-track-response"
     ]
   }

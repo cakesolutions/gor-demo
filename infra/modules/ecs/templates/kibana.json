@@ -1,0 +1,26 @@
+[
+    {
+        "environment": [
+            {
+                "name": "ELASTICSEARCH_URL",
+                "value": "http://${ELASTICSEARCH_URL}:${ES_PORT}"
+            },
+            {
+                "name": "XPACK_SECURITY_ENABLED",
+                "value": "true"
+            }
+        ],
+        "essential": true,
+
+        "image": "docker.elastic.co/kibana/kibana:5.6.1",
+        "name": "kibana",
+        "memory": 1024,
+        "cpu": 100,
+        "portMappings": [
+            {
+                "containerPort": 5601,
+                "hostPort": 5601
+            }
+        ]
+    }
+]

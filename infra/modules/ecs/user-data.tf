@@ -21,3 +21,16 @@ resource "template_file" "user_data" {
       ecs_cluster_name = "${var.cluster}"
   }
 }
+
+resource "template_file" "ecs_task_es" {
+  template = "${file("modules/ecs/templates/es.json")}"
+}
+
+resource "template_file" "ecs_task_kibana" {
+    template = "${file("modules/ecs/templates/kibana.json")}"
+    vars = {
+        ELASTICSEARCH_URL = "${var.ELASTICSEARCH_URL}"
+        ES_PORT = "${var.ES_PORT}"
+        XPACK_MONITORING_ELASTICSEARCH_URL = "http://${var.ELASTICSEARCH_URL}:${var.ES_PORT}"
+    }
+}
