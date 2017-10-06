@@ -65,10 +65,11 @@ resource "aws_ecs_service" "ecs_service_hello-world" {
 
   load_balancer {
       target_group_arn = "${aws_alb_target_group.ecs_target.arn}"
-      container_name = "hello-world"
+      container_name = "hello-worldA"
       container_port = 80
     }
   }
+
 
 resource "aws_ecs_task_definition" "ecs_task_hello-world" {
   family = "hello-world"

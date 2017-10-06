@@ -9,7 +9,7 @@
         "--input-raw",
         ":80",
         "--output-http",
-        "http://stagingdummy",
+        "http://localhost:81",
         "--output-http-elasticsearch",
         "es.gordemo.local:9200/gor",
         "--input-raw-track-response"

@@ -12,7 +12,15 @@ For our demonstration we will be using two containers acting like servers. One r
 We will use [Goreplay](https://goreplay.org/) for replay traffic from a production environment into a testing environment.
 
 Goreplay (GOR) can be executed in different modes. You can either intercept traffic and redirect it or you can record it and replay it later.
-In our demo , we will do the first. In our demonstration, GOR will be listening to HTTP request at port 80 (serverA) and will replay them in port 81 (serverB).
+In our demo , we will do the first.
+
+The request flow will be:
+
+ - User access to http://serverA
+ - GOR will capture that request and replay it to http://serverB:81
+ - Output for both request will be sent to an EK stack (elasticsearch and kibana)
+
+
 
 ## Requirements
 - [Docker](https://www.docker.com/)
@@ -99,3 +107,10 @@ There are a few problems with the network driver used by Docker for Mac. So this
 The only workaround available (at the moment) is spin-up a linux box (vagrant) with docker and execute it in that box.
 
 Here's the issue created in docker's github page about the drama with networking [#68](https://github.com/docker/for-mac/issues/68)
+
+### Elasticsearch & kibana
+The output of GOR will be stored in ElasticSearch and visualised through Kibana.
+
+Although this might be useful in some cases, be aware that the output stored will miss some information (And this will not change until the community supporting the driver fix the issue)
+
+If you want, you can change where the GOR's output will be stored by changing the `infra/modules/ecs/templates/goreplay.json` (if you are running this in AWS) or `docker/docker-compose.yml` (if you are running this in your local env)
