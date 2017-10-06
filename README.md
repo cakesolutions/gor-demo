@@ -2,7 +2,7 @@
 This is a demonstration how to implement a tool to duplicate production traffic (HTTP) into other environments using containers.
 
 ## Components
-### Server
+### Servers
 The server used for this demonstration it's just a web server with a simple 'Hello World' page which runs on port 80.
 This demo is independent of the server used. We chose this because it fits for our purpose.
 
@@ -77,7 +77,7 @@ You can then pass these variables when using the Terraform command:
 
     $ terraform plan -var-file=yourvariables.tfvars
 
-### Run it
+### Run it
 
 Enter the `infra` directory, and run the `terraform` commands directly from there.
 These commands initialize Terraform and apply Terraform changes using a custom variables file.
