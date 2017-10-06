@@ -7,14 +7,37 @@ services:
    ports:
     - "80:80"
    image: tutum/hello-world:latest
+
   hello-worldB:
    ports:
     - "81:80"
    image: tutum/hello-world:latest
+
+
   gor-listen:
    image: buger/goreplay
    network_mode: "host"
-   command: --input-raw :80 --output-http="http://localhost:81"
+   command: --input-raw :80 --output-http="http://localhost:81" --output-http-elasticsearch localhost:9200/gor
    depends_on:
      - hello-worldA
      - hello-worldB
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: -Xms1024m -Xmx1024m
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.6.1
+    environment:
+      ELASTICSEARCH_URL: "http://elasticsearch:9200"
+      XPACK_SECURITY_ENABLED: "true"
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
