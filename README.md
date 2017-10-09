@@ -4,7 +4,7 @@ This is a demonstration how to implement a tool to duplicate production traffic 
 ## Components
 ### Servers
 The server used for this demonstration it's just a web server with a simple 'Hello World' page which runs on port 80.
-This demo is independent of the server used. We chose this because it fits for our purpose.
+This demo is independent of the server used. We chose this one because it fits for our purposes.
 
 For our demonstration we will be using two containers acting like servers. One responding HTTP queries at port 80(serverA), and the other at port 81(serverB)
 
@@ -12,13 +12,13 @@ For our demonstration we will be using two containers acting like servers. One r
 We will use [Goreplay](https://goreplay.org/) for replay traffic from a production environment into a testing environment.
 
 Goreplay (GOR) can be executed in different modes. You can either intercept traffic and redirect it or you can record it and replay it later.
-In our demo , we will do the first.
+In this demo , we will do the first.
 
 The request flow will be:
 
  - User access to http://serverA
  - GOR will capture that request and replay it to http://serverB:81
- - Output for both request will be sent to an EK stack (elasticsearch and kibana)
+ - Output for both request and response will be sent to an EK stack (elasticsearch and kibana)
 
 
 
@@ -113,4 +113,4 @@ The output of GOR will be stored in ElasticSearch and visualised through Kibana.
 
 Although this might be useful in some cases, be aware that the output stored will miss some information (And this will not change until the community supporting the driver fix the issue)
 
-If you want, you can change where the GOR's output will be stored by changing the `infra/modules/ecs/templates/goreplay.json` (if you are running this in AWS) or `docker/docker-compose.yml` (if you are running this in your local env)
+If you want, you can change where the output of GOR will be stored by changing the `infra/modules/ecs/templates/goreplay.json` (if you are running this in AWS) or `docker/docker-compose.yml` (if you are running this in your local env)
